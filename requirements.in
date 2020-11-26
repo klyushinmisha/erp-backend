@@ -1,0 +1,16 @@
+alembic
+arrow
+asyncpg
+environs
+fastapi
+gunicorn
+httptools
+marshmallow
+psycopg2
+pyjwt
+pytest
+python-magic
+python-multipart
+sqlalchemy==1.4.0b1
+uvicorn
+uvloop
