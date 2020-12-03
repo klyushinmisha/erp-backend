@@ -1,0 +1,17 @@
+# hidden files
+.gitignore
+.pytest_cache
+.python-version
+
+# requirements files
+requirements.dev.in
+requirements.dev.txt
+requirements.in
+
+# tests folder
+tests/
+
+# deploy files
+deploy.sh
+nginx.conf
+docker-compose.yml

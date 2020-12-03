@@ -1,0 +1,42 @@
+version: '2.3'
+
+services:
+  api:
+    image: erp-backend
+    environment:
+      SCRYPT_SALT: ${SCRYPT_SALT}
+      SCRYPT_N: 16384
+      SCRYPT_R: 8
+      SCRYPT_P: 1
+      SCRYPT_DKLEN: 128
+
+      JWT_SECRET: ${JWT_SECRET}
+
+      DB_URL: postgres:postgres@postgres/erp_backend
+    restart: always
+    depends_on:
+      - postgres
+      - nginx
+
+  postgres:
+    image: postgres:13.1
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: erp_backend
+      POSTGRES_USER: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/pgdata
+    restart: always
+
+  nginx:
+    image: nginx:1.19
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 80:80
+    restart: always
+
+volumes:
+  postgres_data:
+    driver: local
