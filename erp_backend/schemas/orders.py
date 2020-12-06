@@ -20,9 +20,10 @@ from .pagination import PaginationSchema
 
 class OrderStatusEnum(enum.Enum):
     CREATED = "created"
-    PAID = "paid"
+    FORMALIZING = "formalizing"
+    COLLECTING = "collecting"
     DELIVERING = "delivering"
-    DELIVERED = "delivered"
+    DONE = "done"
 
 
 class OrderSchema(BaseModel):
