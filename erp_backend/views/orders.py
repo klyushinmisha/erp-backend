@@ -255,6 +255,7 @@ async def orders_get(
         UserRoleEnum.WAREHOUSE,
         UserRoleEnum.DELIVERY,
         UserRoleEnum.CLIENT,
+        UserRoleEnum.LAWYER,
     ):
         raise HTTPException(status_code=403, detail="Access forbidden")
     sel = sa.select([Orders]).order_by(Orders.c.id)
