@@ -25,7 +25,7 @@ class UsersPostSchema(BaseModel):
             return v
         raise ValueError("Invalid length")
 
-    @validator("password")
+    @validator("role")
     def validate_role(cls, v):
         if 0 <= len(v) <= 32:
             return v
