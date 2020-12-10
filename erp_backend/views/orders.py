@@ -264,8 +264,8 @@ async def orders_get(
         sel = sel.where(Orders.c.user_id == user_id)
         sel_cnt = sel_cnt.where(Orders.c.user_id == user_id)
     if status is not None:
-        sel = sel.where(Orders.c.name == status)
-        sel_cnt = sel_cnt.where(Orders.c.name == status)
+        sel = sel.where(Orders.c.status == status)
+        sel_cnt = sel_cnt.where(Orders.c.status == status)
     return await pagination_view_builder(
         sel,
         sel_cnt,
