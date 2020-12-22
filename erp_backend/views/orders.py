@@ -175,6 +175,8 @@ async def orders_update_status_post(
         UserRoleEnum.DELIVERY,
     ):
         raise HTTPException(status_code=403, detail="Access forbidden")
+
+    get_status = sa.select([Orders.c.status]).where(Orders.c.id == order_id)
     update_q = (
         sa.update(Orders)
         .where(Orders.c.id == order_id)
@@ -182,6 +184,21 @@ async def orders_update_status_post(
         .returning(Orders)
     )
     async with engine.begin() as conn:
+        # check update state possibility
+        order_row = (await conn.execute(get_status)).fetchone()
+        if order_row is None:
+            raise HTTPException(status_code=404, detail="Order doesn't exist")
+        statuses = list(OrderStatusEnum.__members__.values())
+        status = OrderStatusEnum(order_row[0])
+        if (
+            abs(statuses.index(update_data.status) - statuses.index(status))
+            > 1
+        ):
+            raise HTTPException(
+                status_code=409,
+                detail="Can't advance more than one column at once",
+            )
+
         res = (await conn.execute(update_q)).fetchone()
         if res is None:
             raise HTTPException(status_code=404, detail="Order doesn't exist")
