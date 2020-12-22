@@ -8,10 +8,18 @@ import enum
 from pydantic import BaseModel, validator
 
 
+class UserRoleEnum(str, enum.Enum):
+    ADMIN = "admin"
+    WAREHOUSE = "warehouse"
+    DELIVERY = "delivery"
+    LAWYER = "lawyer"
+    CLIENT = "client"
+
+
 class UsersPostSchema(BaseModel):
     username: str
     password: str
-    role: str
+    role: UserRoleEnum
 
     @validator("username")
     def validate_username(cls, v):
@@ -30,14 +38,6 @@ class UsersPostSchema(BaseModel):
         if 0 <= len(v) <= 32:
             return v
         raise ValueError("Invalid length")
-
-
-class UserRoleEnum(str, enum.Enum):
-    ADMIN = "admin"
-    WAREHOUSE = "warehouse"
-    DELIVERY = "delivery"
-    LAWYER = "lawyer"
-    CLIENT = "client"
 
 
 class UserSchema(BaseModel):

@@ -18,7 +18,7 @@ from pydantic import BaseModel, validator
 from .pagination import PaginationSchema
 
 
-class OrderStatusEnum(enum.Enum):
+class OrderStatusEnum(str, enum.Enum):
     CREATED = "created"
     FORMALIZING = "formalizing"
     COLLECTING = "collecting"
@@ -84,7 +84,7 @@ class OrderWithGoodsPostSchema(BaseModel):
 
 
 class OrderUpdateStatePostSchema(BaseModel):
-    status: str
+    status: OrderStatusEnum
 
 
 class OrdersSchema(BaseModel):
