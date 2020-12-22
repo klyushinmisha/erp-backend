@@ -173,11 +173,11 @@ def test_order_update_status(token):
         headers={"Authorization": token},
     )
     order_data = response.json()
-    order_data["status"] = "paid"
+    order_data["status"] = "formalizing"
 
     response = client.post(
         f"/orders/{order_data['id']}/update_status",
-        json={"status": "paid"},
+        json={"status": "formalizing"},
         headers={"Authorization": token},
     )
     assert response.status_code == 200
