@@ -175,10 +175,6 @@ async def orders_update_status_post(
         UserRoleEnum.DELIVERY,
     ):
         raise HTTPException(status_code=403, detail="Access forbidden")
-    try:
-        OrderStatusEnum(update_data.status)
-    except ValueError:
-        raise HTTPException(status_code=400, detail="Unknown order status")
     update_q = (
         sa.update(Orders)
         .where(Orders.c.id == order_id)

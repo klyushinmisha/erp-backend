@@ -6,17 +6,11 @@ from .._api import api
 from ..db import Users, engine
 from ..hasher import password_hasher
 from ..jwt import jwt_encode
-from ..schemas import AuthSchema, UserRoleEnum, UsersPostSchema
+from ..schemas import AuthSchema, UsersPostSchema
 
 
 @api.post("/users", response_model=AuthSchema)
 async def users_post(user: UsersPostSchema):
-    try:
-        UserRoleEnum(user.role)
-    except ValueError:
-        raise HTTPException(
-            status_code=422, detail=f"Got invalid user role: {user.role}"
-        )
     sel = sa.select([func.count(Users.c.id)]).where(
         Users.c.username == user.username
     )
