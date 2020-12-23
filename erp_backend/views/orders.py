@@ -49,6 +49,7 @@ async def order_get(
             created_at,
             delivery_expected_at,
             delivery_company_id,
+            user_id,
         ) = res
         goods = [
             OrderGoodSchema(
@@ -68,6 +69,7 @@ async def order_get(
         created_at=int(created_at.timestamp() * 1000),
         delivery_expected_at=int(delivery_expected_at.timestamp() * 1000),
         delivery_company_id=delivery_company_id,
+        user_id=user_id,
         goods=goods,
     )
 

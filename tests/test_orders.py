@@ -1,23 +1,11 @@
 from datetime import datetime
 
-import magic
-import pytest
-import sqlalchemy as sa
-from fastapi.testclient import TestClient
-
-from env import DB_URL
-from erp_backend import api
-from erp_backend.db import (
-    DeliveryCompanies,
-    Documents,
-    Goods,
-    OrderGoods,
-    Orders,
-    Users,
-    Warehouses,
-)
 from erp_backend.jwt import jwt_decode
 from tests import client
+
+
+def _user_id_from_token(token):
+    return jwt_decode(token)["id"]
 
 
 def test_order_post(token):
@@ -64,6 +52,7 @@ def test_order_post(token):
         json=order_data,
         headers={"Authorization": token},
     )
+    order_data["user_id"] = _user_id_from_token(token)
     order_data["status"] = "created"
     json = response.json()
     assert response.status_code == 200
@@ -118,6 +107,7 @@ def test_order_get(token):
         json=order_data,
         headers={"Authorization": token},
     )
+    order_data["user_id"] = _user_id_from_token(token)
     order_data["status"] = "created"
     json = response.json()
     assert response.status_code == 200
@@ -173,6 +163,7 @@ def test_order_update_status(token):
         headers={"Authorization": token},
     )
     order_data = response.json()
+    order_data["user_id"] = _user_id_from_token(token)
     order_data["status"] = "formalizing"
 
     response = client.post(

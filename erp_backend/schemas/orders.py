@@ -32,6 +32,7 @@ class OrderSchema(BaseModel):
     created_at: int
     delivery_expected_at: int
     delivery_company_id: int
+    user_id: int
 
 
 class OrderGoodSchema(BaseModel):
@@ -48,6 +49,7 @@ class OrderWithGoodsSchema(BaseModel):
     created_at: int
     delivery_expected_at: int
     delivery_company_id: int
+    user_id: int
     goods: List[OrderGoodSchema]
 
 
